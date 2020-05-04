@@ -12,9 +12,9 @@ public class ProductoDAO implements CrudAble<Producto>  {
 
 	final String SQL_GET_ALL = " SELECT id, nombre FROM producto ORDER BY id DESC;";
 	
-	// SQL_GET_ALL  = " INSERT INTO producto (nombre, id_usuario) VALUES ( ? , 1) ; "
-	// SQL_GET_ALL = " SELECT id, nombre FROM producto ORDER BY id DESC; "
-	 //SQL_DELETE = " DELETE FROM producto WHERE id = ? ; ";
+	 //final String SQL_INSERT= " INSERT INTO producto (nombre, id_usuario) VALUES ( ? , 1) ; ";
+	// " SELECT id, nombre FROM producto ORDER BY id DESC; ",
+	 //" DELETE FROM producto WHERE id = ? ; ";
 	 
 	@Override
 	public ArrayList<Producto> getAll() throws Exception {
