@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 import com.ipartek.formacion.modelo.Producto;
 
-
 public class InsertarProductoTeclado {
 
 	public static void main(String[] args) {
@@ -17,61 +16,50 @@ public class InsertarProductoTeclado {
 		final String USUARIO="debian-sys-maint";
 		final String PASS ="o8lAkaNtX91xMUcV";
 		final String SQL="INSERT INTO producto(nombre,id_usuario) VALUES (?,1);";
+		boolean continuar=true;
 		
 		
-		
-		try
+		                                             
+		try( Connection conexion = DriverManager.getConnection(URL, USUARIO, PASS);	
+			PreparedStatement pst = conexion.prepareStatement(SQL);
+			Scanner sc = new Scanner(System.in);)
 		{
-			// comprobar que tengamos el . jar de mysql
-		   Class.forName("com.mysql.jdbc.Driver");
-		   System.out.println("existe el .jar para mysql");
-		   // Conectarnos a una BBDD supermercado//
-		   Connection conexion = DriverManager.getConnection (URL,USUARIO,PASS);
-		   System.out.println("CONEXION CON EXITO");
-		   
-		   //Realizar una consulta 
-		   PreparedStatement pst = conexion.prepareStatement(SQL);
-		   //ResultSet rs= pst.executeQuery();
-		   
-		   
-		   System.out.println("Insertar  Productos");
-		   System.out.println("--------------------");
-		   
-		   //TODO pedir el nombre del producto a insertar por pantalla por teclado 
-		   Scanner teclado=new Scanner(System.in);
-		   String prod=teclado.nextLine();
-		   
-		  while (teclado.hasNext()&&prod!="" ) {
-			String string = (String) teclado.next();
+			// comprobar que tengamos el .jar de MySQL
+						Class.forName("com.mysql.jdbc.Driver");
+						System.out.println("Existe el .jar para mysql");
+
+			do {
+				
 			
-				pst.setString(1,prod );	
-		}
-			// TODO como detener el introducir productos para que ejecute 
-		teclado.close();
-		   
-		     
-		   //cambiamos el 1º ? de la  SQL por "galletitas salada
-		  // pst.setString(1,"galletitas saladas");
-		   
-		   int affectedRows=pst.executeUpdate();
-		   // realizar 1 a 1 los resultados hasta que no existan mas registros
-		  //affectesRows es el numero de registros insertados
-		  if (affectedRows==1) {
-			System.out.println("numero de registros insertados : "+affectedRows );
-		}
-		   
-		   
-		   
-		} catch (Exception e)
-		{
-		   e.printStackTrace();
-		} 
+			String nombre = sc.nextLine();
+			
+			// cambiamos el 1º ? de la SQL por la varaiabel nombre
+			// INSERT INTO producto (nombre, id_usuario) VALUES ( ? , 1) ;
+			pst.setString(1, nombre);
+
+			try {
+				
+				int affectedRows = pst.executeUpdate();
+				// affedetedRows es el numero de registros insertados
+				if (affectedRows == 1) {
+					System.out.println("El producto se ha guardado con exito");
+					continuar = false;
+				}
+				
+			} catch (Exception e) {
+				System.out.println("Lo sentimos pero el nombre ya existe, dime otro:");
+			}
 		
+		} while(continuar);	
 		
-		
-		
-		
+
+	} catch (Exception e) {
+
+		System.out.println("Tenemos un problema " + e.getMessage());
+
 	}
 	
-	
+	System.out.println("Agur, nos vemos otro día");
+
+}
 }
