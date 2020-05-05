@@ -9,11 +9,34 @@ import java.util.Scanner;
 import com.ipartek.formacion.modelo.ConnectionManager;
 import com.ipartek.formacion.modelo.Producto;
 
+
 public class ProductoDAO implements CrudAble<Producto>  {
 
+	//executequery=>ResultSet
+private static ProductoDAO INSTANCE = null;
+	
+	private ProductoDAO() {
+		super();	
+	}
+		
+	public static synchronized ProductoDAO getInstance() {
+		
+		if ( INSTANCE == null ) {
+			INSTANCE = new ProductoDAO();
+		}
+		
+		return INSTANCE;
+	}
+	
+
 	final String SQL_GET_ALL = " SELECT id, nombre FROM producto ORDER BY id DESC;";
+	final String SQL_GET_BY_ID= " SELECT id, nombre FROM producto WHERE id=?; ";
+	
+	//executeUpdate=> int numero de filas afectadas
+	
 	final String SQL_INSERT= " INSERT INTO producto (nombre, id_usuario) VALUES ( ? , 1) ; ";
-	// " SELECT id, nombre FROM producto ORDER BY id DESC; ",
+	
+	
 	 //" DELETE FROM producto WHERE id = ? ; ";
 	 
 	@Override
@@ -53,8 +76,28 @@ public class ProductoDAO implements CrudAble<Producto>  {
 
 	@Override
 	public Producto getById(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Producto registro=new Producto();
+		try (
+				Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
+				
+			) {
+		
+			pst.setInt(1, id);
+			ResultSet rs= pst.executeQuery();
+			
+			if (rs.next()) {
+				
+				registro.setId(rs.getInt("id"));
+				registro.setNombre(rs.getString("nombre"));
+				
+			} else {
+				throw new Exception ("no se encuentra registro con id= " +id); 
+
+			}
+			
+		}
+		return registro;
 	}
 
 	@Override

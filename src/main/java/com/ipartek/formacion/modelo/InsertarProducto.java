@@ -1,4 +1,4 @@
-package com.ipartek.formacion;
+package com.ipartek.formacion.modelo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
