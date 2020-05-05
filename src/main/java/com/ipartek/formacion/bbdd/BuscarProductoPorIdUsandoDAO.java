@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.ipartek.formacion.modelo.Producto;
+import com.ipartek.formacion.modelo.ProductoDAO;
 
-public class BuscarProductoPorIdUsandoDAO2
+public class BuscarProductoPorIdUsandoDAO
 {
 
 	public static void main(String[] args) throws Exception {

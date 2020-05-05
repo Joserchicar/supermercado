@@ -1,4 +1,4 @@
-package com.ipartek.formacion.bbdd;
+package com.ipartek.formacion.modelo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,13 +6,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.ipartek.formacion.modelo.ConnectionManager;
-import com.ipartek.formacion.modelo.Producto;
+import com.ipartek.formacion.bbdd.CrudAble;
 
 
 public class ProductoDAO implements CrudAble<Producto>  {
 
-	//executequery=>ResultSet
+	
 private static ProductoDAO INSTANCE = null;
 	
 	private ProductoDAO() {
@@ -28,16 +27,16 @@ private static ProductoDAO INSTANCE = null;
 		return INSTANCE;
 	}
 	
-
+//executequery=>ResultSet
 	final String SQL_GET_ALL = " SELECT id, nombre FROM producto ORDER BY id DESC;";
 	final String SQL_GET_BY_ID= " SELECT id, nombre FROM producto WHERE id=?; ";
 	
 	//executeUpdate=> int numero de filas afectadas
 	
 	final String SQL_INSERT= " INSERT INTO producto (nombre, id_usuario) VALUES ( ? , 1) ; ";
+	final String SQL_DELETE="DELETE FROM producto WHERE id=?;";
 	
 	
-	 //" DELETE FROM producto WHERE id = ? ; ";
 	 
 	@Override
 	public ArrayList<Producto> getAll() throws Exception {
@@ -102,8 +101,27 @@ private static ProductoDAO INSTANCE = null;
 
 	@Override
 	public Producto delete(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Producto registro=new Producto();
+		// LISTAMOS EL PRODUCTO ANTES DE ELIMINARLO.
+		registro=getById(id);
+		
+		try(
+				Connection conexion = ConnectionManager.getConnection();	
+				PreparedStatement pst = conexion.prepareStatement(SQL_DELETE);
+				
+			){
+			pst.setInt(1,id);
+			int affectedRows=pst.executeUpdate();
+			if (affectedRows==1) {
+				System.out.println("El Producto ha sido eliminado");
+			}else {
+				throw new Exception("No ha sido posible eliminar el registro numero "+id);
+			}
+		}
+		
+			
+		
+		return registro;
 	}
 
 	@Override
