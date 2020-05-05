@@ -1,4 +1,13 @@
 package com.ipartek.formacion.modelo;
+/**
+ * clase que tiene los distintos metodos para la realización del CRUD 
+ * de la BBDD de mySQL llamada Producto
+ * 
+ *  @see 
+ *  @author José Ramón Chica 
+ */
+
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
