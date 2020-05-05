@@ -1,4 +1,3 @@
-
 package com.ipartek.formacion.bbdd;
 
 import java.sql.Connection;
@@ -9,15 +8,17 @@ import java.util.Scanner;
 import com.ipartek.formacion.ejercicios.bbdd.modelo.ConnectionManager;
 import com.ipartek.formacion.modelo.Producto;
 
-public class BuscarProductosPorNombre {
+
+
+public class BuscarProductosPorNombreConDAO {
 	
 	
 	
 	
 	public static void main(String[] args) {
-
-		String SQL = "SELECT id, nombre FROM producto WHERE nombre LIKE ? ;";
-
+		String SQL= "SELECT id,nombre FROM producto where nombre LIKE ?;";
+		
+	
 		try (
 				Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(SQL);				

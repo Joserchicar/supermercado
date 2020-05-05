@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.ipartek.formacion.bbdd.CrudAble;
+import com.ipartek.formacion.ejercicios.bbdd.modelo.ConnectionManager;
 
 
 public class ProductoDAO implements CrudAble<Producto>  {
@@ -28,14 +29,14 @@ private static ProductoDAO INSTANCE = null;
 	}
 	
 //executequery=>ResultSet
-	final String SQL_GET_ALL = " SELECT id, nombre FROM producto ORDER BY id DESC;";
-	final String SQL_GET_BY_ID= " SELECT id, nombre FROM producto WHERE id=?; ";
+	private final String SQL_GET_ALL = " SELECT id, nombre FROM producto ORDER BY id DESC;";
+	private final String SQL_GET_BY_ID= " SELECT id, nombre FROM producto WHERE id=?; ";
 	
 	//executeUpdate=> int numero de filas afectadas
 	
-	final String SQL_INSERT= " INSERT INTO producto (nombre, id_usuario) VALUES ( ? , 1) ; ";
-	final String SQL_DELETE="DELETE FROM producto WHERE id=?;";
-	
+	private final String SQL_INSERT= " INSERT INTO producto (nombre, id_usuario) VALUES ( ? , 1) ; ";
+	private final String SQL_DELETE="DELETE FROM producto WHERE id=?;";
+	private final String SQL_UPDATE="UPDATE producto SET nombre=? WHERE id=?; ";
 	
 	 
 	@Override
@@ -149,8 +150,28 @@ private static ProductoDAO INSTANCE = null;
 
 	@Override
 	public Producto update(Producto p) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if (p==null) {
+			throw new Exception("No se puede modificar.Valor NULL");
+		}
+		
+		
+		try(
+				Connection conexion = ConnectionManager.getConnection();	
+				PreparedStatement pst = conexion.prepareStatement(SQL_UPDATE);
+				
+			){
+			pst.setString(1,p.getNombre());
+			pst.setInt(2, p.getId());
+			
+			int affectedRows = pst.executeUpdate();
+			if (affectedRows!= 1) {
+				throw new Exception("no se puede modificar el registro "+ p.getId());
+			}
+		}catch (Exception e) {
+				throw new Exception(" El nombre"+p.getNombre() + " del producto ya existe");
+		}
+		
+		return p;
 	}
 
 	

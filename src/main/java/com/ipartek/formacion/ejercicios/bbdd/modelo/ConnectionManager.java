@@ -1,4 +1,4 @@
-package com.ipartek.formacion.modelo;
+package com.ipartek.formacion.ejercicios.bbdd.modelo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

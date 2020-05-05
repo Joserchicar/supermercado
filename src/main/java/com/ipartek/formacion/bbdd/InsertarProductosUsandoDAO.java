@@ -1,10 +1,15 @@
-package com.ipartek.formacion.ejercicios.bbdd;
+package com.ipartek.formacion.bbdd;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.ipartek.formacion.ejercicios.bbdd.modelo.ConnectionManager;
+import com.ipartek.formacion.modelo.Producto;
+import com.ipartek.formacion.modelo.ProductoDAO;
+
+
 
 /**
  * 
@@ -15,41 +20,29 @@ import com.ipartek.formacion.ejercicios.bbdd.modelo.ConnectionManager;
  * @author javaee
  *
  */
-public class InsertarProductos {
+public class InsertarProductosUsandoDAO {
 
 	
 	
-	public static void main(String[] args) {
-
-
-		final String SQL = " INSERT INTO producto (nombre, id_usuario) VALUES ( ? , 1) ; ";
-		boolean continuar = true; 
-				
-
-		try(
-				Connection conexion = ConnectionManager.getConnection();	
-				PreparedStatement pst = conexion.prepareStatement(SQL);
-				Scanner sc = new Scanner(System.in);
-				
-			){
-	
+	public static void main(String[] args) throws Exception {
 		
+		boolean continuar = true; 
+		ProductoDAO dao= ProductoDAO.getInstance();
+		ArrayList<Producto>productos= dao.getAll();
+		try(				
+				Scanner sc = new Scanner(System.in);	
+			){
+
 			
 			do {
+				try {
 				System.out.println("Dime el nombre del producto a guardar");
 				String nombre = sc.nextLine();	
-				// cambiamos el 1º ? de la SQL por la varaiabel nombre
-				// INSERT INTO producto (nombre, id_usuario) VALUES ( ? , 1) ;
-				pst.setString(1, nombre);
-	
-				try {
-					
-					int affectedRows = pst.executeUpdate();
-					// affedetedRows es el numero de registros insertados
-					if (affectedRows == 1) {
-						System.out.println("El producto se ha guardado con exito");
-						continuar = false;
-					}
+				Producto producto=new Producto();
+		
+				producto =dao.insert(producto);
+				
+				continuar=false;	
 					
 				} catch (Exception e) {
 					System.out.println("Lo sentimos pero el nombre ya existe, dime otro:");

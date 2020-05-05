@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.ipartek.formacion.modelo.ConnectionManager;
+import com.ipartek.formacion.ejercicios.bbdd.modelo.ConnectionManager;
 import com.ipartek.formacion.modelo.Producto;
 
 
