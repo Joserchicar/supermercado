@@ -3,7 +3,7 @@ package com.ipartek.formacion.modelo;
  * clase que tiene los distintos metodos para la realización del CRUD 
  * de la BBDD de mySQL llamada Producto
  * 
- *  @see 
+ *  @see https://github.com/Joserchicar/supermercado.git.
  *  @author José Ramón Chica 
  */
 
