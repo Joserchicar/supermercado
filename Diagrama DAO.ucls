@@ -13,7 +13,7 @@
   <interface id="2" language="java" name="com.ipartek.formacion.modelo.UsuarioDAO" project="AppSupermercado" 
     file="/AppSupermercado/src/main/java/com/ipartek/formacion/modelo/UsuarioDAO.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="431" y="259"/>    
+    <position height="-1" width="-1" x="992" y="167"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -23,7 +23,7 @@
   <class id="3" language="java" name="com.ipartek.formacion.modelo.UsuarioDAOImpl" project="AppSupermercado" 
     file="/AppSupermercado/src/main/java/com/ipartek/formacion/modelo/UsuarioDAOImpl.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="725" y="272"/>    
+    <position height="-1" width="-1" x="1158" y="467"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -33,7 +33,7 @@
   <class id="4" language="java" name="com.ipartek.formacion.ejercicios.bbdd.GestionUsuarios" project="AppSupermercado" 
     file="/AppSupermercado/src/main/java/com/ipartek/formacion/ejercicios/bbdd/GestionUsuarios.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="462" y="396"/>    
+    <position height="-1" width="-1" x="1153" y="796"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -53,28 +53,89 @@
   </class>  
   <interface id="6" language="java" name="com.ipartek.formacion.bbdd.CrudAble" project="AppSupermercado" 
     file="/AppSupermercado/src/main/java/com/ipartek/formacion/bbdd/CrudAble.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="445" y="38"/>    
+    <position height="-1" width="-1" x="693" y="36"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <generalization id="7">    
-    <end type="SOURCE" refId="2"/>    
+  <interface id="7" language="java" name="com.ipartek.formacion.modelo.RolDAO" project="AppSupermercado" 
+    file="/AppSupermercado/src/main/java/com/ipartek/formacion/modelo/RolDAO.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="706" y="240"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="8" language="java" name="com.ipartek.formacion.modelo.RolDAOImpl" project="AppSupermercado" 
+    file="/AppSupermercado/src/main/java/com/ipartek/formacion/modelo/RolDAOImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="701" y="553"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="com.ipartek.formacion.modelo.ProductoDAO" project="AppSupermercado" 
+    file="/AppSupermercado/src/main/java/com/ipartek/formacion/modelo/ProductoDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="277" width="160" x="327" y="47"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="10">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="11" name="INSTANCE"/>      
+      <multiplicity id="12" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="13">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <association id="14">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="15" name="INSTANCE"/>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="17">    
+    <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <association id="8">    
+  <association id="18">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="9" name="INSTANCE"/>      
-      <multiplicity id="10" minimum="0" maximum="1"/>    
+      <attribute id="19" name="INSTANCE">        
+        <position height="0" width="0" x="433" y="195"/>      
+      </attribute>      
+      <multiplicity id="20" minimum="0" maximum="1">        
+        <position height="0" width="0" x="433" y="195"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="11">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
+  <generalization id="21">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <realization id="22">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <realization id="23">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
   </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    

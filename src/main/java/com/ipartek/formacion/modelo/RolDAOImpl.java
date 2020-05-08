@@ -4,42 +4,39 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import com.ipartek.formacion.ejercicios.bbdd.modelo.ConnectionManager;
 
-public class UsuarioDAOImpl implements UsuarioDAO {
+public class RolDAOImpl implements RolDAO {
+	
+	private static RolDAOImpl INSTANCE = null;
 
-	private static UsuarioDAOImpl INSTANCE = null;
-
-	private UsuarioDAOImpl() {
+	private RolDAOImpl() {
 		super();
 	}
 
-	public static synchronized UsuarioDAOImpl getInstance() {
+	public static synchronized RolDAOImpl getInstance() {
 
 		if (INSTANCE == null) {
-			INSTANCE = new UsuarioDAOImpl();
+			INSTANCE = new RolDAOImpl();
 		}
 
 		return INSTANCE;
 	}
-
 	// executequery=>ResultSet
-	private final String SQL_GET_ALL = " SELECT id, nombre FROM usuario ORDER BY id DESC;";
-	private final String SQL_GET_BY_ID = " SELECT id, nombre FROM usuario WHERE id=?; ";
-	private final String SQL_GET_BY_NOMBRE = "SELECT id, nombre FROM usuario WHERE nombre like ?; ";
+		private final String SQL_GET_ALL = " SELECT id, nombre FROM rol ORDER BY id DESC;";
+		private final String SQL_GET_BY_ID = " SELECT id, nombre FROM rol WHERE id=?; ";
+		
 
-	// executeUpdate=> int numero de filas afectadas
+		// executeUpdate=> int numero de filas afectadas
 
-	private final String SQL_INSERT = " INSERT INTO usuario (nombre,contrasenia, id_rol) VALUES ( ? , 12345,1) ; ";
-	private final String SQL_DELETE = "DELETE FROM usuario WHERE id=?;";
-	private final String SQL_UPDATE = "UPDATE usuario SET nombre=? WHERE id=?; ";
+		private final String SQL_INSERT = " INSERT INTO rol (nombre) VALUES  ?; ";
+		private final String SQL_DELETE = "DELETE FROM rol WHERE id=?;";
+		private final String SQL_UPDATE = "UPDATE rol SET nombre=? WHERE id=?; ";
 
 	@Override
-	public ArrayList<Usuario> getAll() {
-
-		ArrayList<Usuario> registros = new ArrayList<Usuario>();
+	public ArrayList<Rol> getAll() throws Exception {
+		ArrayList<Rol> registros = new ArrayList<Rol>();
 
 		try (Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
@@ -51,10 +48,10 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 				int id = rs.getInt("id");
 				String nombre = rs.getString("nombre");
 
-				Usuario u = new Usuario(nombre);
-				u.setId(id);
+				Rol r = new Rol(nombre);
+				r.setId(id);
 
-				registros.add(u);
+				registros.add(r);
 
 			} // while
 
@@ -66,11 +63,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 		return registros;
 	}
-
+		
 	@Override
-	public Usuario getById(int id) throws Exception {
-
-		Usuario registro = new Usuario();
+	public Rol getById(int id) throws Exception {
+		
+		Rol registro = new Rol();
 		try (Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_ID);
 
@@ -94,9 +91,9 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 
 	@Override
-	public Usuario delete(int id) throws Exception {
-		Usuario registro = new Usuario();
-		// LISTAMOS EL PRODUCTO ANTES DE ELIMINARLO.
+	public Rol delete(int id) throws Exception {
+		Rol registro = new Rol();
+		// LISTAMOS EL ROL ANTES DE ELIMINARLO.
 		registro = getById(id);
 
 		try (Connection conexion = ConnectionManager.getConnection();
@@ -106,7 +103,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			pst.setInt(1, id);
 			int affectedRows = pst.executeUpdate();
 			if (affectedRows == 1) {
-				System.out.println("El Usuario  ha sido eliminado");
+				System.out.println("El nombre del rol  ha sido eliminado");
 			} else {
 				throw new Exception("No ha sido posible eliminar el registro numero " + id);
 			}
@@ -116,13 +113,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 
 	@Override
-	public Usuario insert(Usuario pojo) throws Exception {
-
+	public Rol insert(Rol p) throws Exception {
 		try (Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(SQL_INSERT, com.mysql.jdbc.PreparedStatement.RETURN_GENERATED_KEYS);
 
 		) {
-		pst.setString(1, pojo.getNombre());
+		pst.setString(1, p.getNombre());
 			int affectedRows = pst.executeUpdate();
 			// affedetedRows es el numero de registros insertados
 			if (affectedRows == 1) {
@@ -131,14 +127,14 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			} else {
 				throw new Exception("No se ha podido guardar");
 			}
-
 		}
 
-		return pojo;
+		return p;
 	}
 
 	@Override
-	public Usuario update(Usuario pojo) throws Exception {
+	public Rol update(Rol pojo) throws Exception {
+
 		if (pojo == null) {
 			throw new Exception("No se puede modificar.Valor NULL");
 		}
@@ -162,38 +158,5 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	}
 
-	@Override
-	public ArrayList<Usuario> getAllByNombre(String palabraBuscada) {
-
-		ArrayList<Usuario> registros = new ArrayList<Usuario>();
-
-		try (Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_NOMBRE);
-				ResultSet rs = pst.executeQuery();) {
-			
-			pst.setString(1, "%"+ palabraBuscada+ "%");
-			
-			
-			while (rs.next()) {
-
-				
-				int id = rs.getInt("id");
-				String nombre = rs.getString("nombre");
-
-				Usuario u = new Usuario(nombre);
-				u.setNombre(nombre);
-
-				registros.add(u);
-
-			} // while
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
-
-		return registros;
-	}
 
 }
