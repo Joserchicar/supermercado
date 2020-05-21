@@ -1,26 +1,15 @@
 package com.ipartek.formacion.ejercicios.bbdd;
 
-import java.lang.invoke.SwitchPoint;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-//import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.ipartek.formacion.ejercicios.bbdd.modelo.ConnectionManager;
-import com.ipartek.formacion.modelo.Producto;
-import com.ipartek.formacion.modelo.ProductoDAO;
-import com.ipartek.formacion.modelo.RolDAOImpl;
 import com.ipartek.formacion.modelo.Usuario;
 import com.ipartek.formacion.modelo.UsuarioDAOImpl;
 
 /**
- * Poder ver todos los usuarios, crear nuevos, eliminar, editar y buscar por
- * nombre
- * 
- * @author Jose Ramon Chica Ramirez
+ * Poder ver todos los alumnos, crear nuevos, eliminar, editar y buscar por nombre
+ * @author javaee
  *
  */
 public class GestionUsuarios {
@@ -30,330 +19,256 @@ public class GestionUsuarios {
 	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		
-	try(Scanner sc=new Scanner(System.in)) {
-		
-	int option;
 	
-	boolean salir=false;
-	while (!salir) {
 		
-		System.out.println("    MENU SELECCIÓN   ");
-		System.out.println("*********************");
-		System.out.println("1.- LISTAR TODOS     ");
-		System.out.println("2.- BUSCAR POR ID    ");
-		System.out.println("3.- BUSCAR POR NOMBRE");
-		System.out.println("4.- INSERTAR         ");
-		System.out.println("5.- MODIFICAR        ");
-		System.out.println("6.- BORRAR           ");
-		System.out.println("7.- SALIR            ");
-		System.out.println("*********************");
-		System.out.println("  ");
-		System.out.println("selecciona la opción:");
 		
-		option=sc.nextInt();
+		
+		try {
+			
+			System.out.println("Menu de Opciones");
+			System.out.println("------------------------------------------------------------");
+			System.out.println("1. Listado de Usuarios");
+			System.out.println("2. Buscar Usuario por id");
+			System.out.println("3. Eliminar Usuario");
+			System.out.println("4. Insertar Usuario");
+			System.out.println("5. Modificar Usuario");
+			System.out.println("6. Buscar Usuario por nombre");
+			System.out.println("7. Cerrar el programa");
+			
+			System.out.println("------------------------------------------------------------");
+			
+			
+			do {
+				
+				System.out.println("Por favor digite el numero de la accion que desea realizar");
+				int opcion = Integer.parseInt(sc.nextLine());
+				
+				
+				switch (opcion) {
+				case 1: 
+					listar();
+					
+					break;
+				case 2:
+					buscar_id();
+					
+					break;
+					
+				case 3:
+					eliminar();
+					
+					break;
+					
+				case 4: 
+					insertar();
+					
+					break;
+					
+				case 5:
+					modificar();
+					
+					break;
+					
+				case 6:
+					buscar_nombre();
+					
+					break;
+					
+				case 7:
+					System.out.println("Cerrar el programa");
+					System.out.println("---------------------------------------------");
+					
+					System.out.println("Hasta Pronto!!!");
+					
+					continuar = false;
+					break;
+					
+
+				default:
+					break;
+				}
+				
+			} while (continuar);
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
-	
-	do {
-		
-		System.out.println("Por favor digite el numero de la accion que desea realizar");
-		int opcion = Integer.parseInt(sc.nextLine());
-		
-		
-		switch (option) {
-		case 1:
-			ArrayList<Usuario> usuarios=dao.getAll();
-			
-			System.out.println("listado de Usuarios");
-			System.out.println("*******************");
-			
-			for (Usuario u : usuarios) {
-				 System.out.println(u);
-			}
-			break;
-			
-		case 2:
-			System.out.println("Listado de usuarios por ID");
-			System.out.println("**************************");
-			
-			for (Usuario  u :dao.getAll()) {
-				
-				System.out.println(u);	
-			}
-			break;
-				
-		case 3:
-			String palabraBuscada = sc.nextLine();
-			
-			usuarios =dao.getAllByNombre("%"+palabraBuscada+"%");
-			
-			System.out.println("listado de Usuarios por nombre");
-			System.out.println("******************************");
-				
-				for (Usuario usuario : usuarios) {
-					
-					System.out.println(usuario);
-				}			
-			break;
-					
-		case 4:
-			try {
-				boolean continuar = true;
-			 usuarios = dao.getAll();
-				do {
-					try {
-						System.out.println("Dime el nombre del usuario a insertar");
-						String nombre = sc.nextLine();
-						Usuario u = new Usuario();
 
-						u = dao.insert(u);
 
-						  continuar = false;
-
-					} catch (Exception e) {
-						System.out.println("Lo sentimos pero el usuario ya existe, dime otro:");
-					}
-
-				} while (continuar);
-
-			} catch (Exception e) {
-
-				System.out.println("Tenemos un problema " + e.getMessage());
-			}
-
-		}
-					
-			break;
-						
-		case 5:
-							
-			break;
-							
-		case 6:
-								
-			break;
-								
-		case 7:
-									
-			break;
-
-		default:
-			break;
-		}
-
-	private static void Listar() {
+	private static void listar() {
 		ArrayList<Usuario> usuarios = dao.getAll();
-
-		System.out.println("listado de Usuarios");
-		System.out.println("*******************");
-
+		
+		System.out.println("Listado de Usuario");
+		System.out.println("---------------------------------------------");
+		
 		for (Usuario u : usuarios) {
 			System.out.println(u);
 		}
-	}
-
-	private static void BuscarPorId() {
-		System.out.println("Listado de usuarios por ID");
-		System.out.println("**************************");
 		
-		for (Usuario  u :dao.getAll()) {
-			
-			System.out.println(u);	
-		}
+		continuar = true;
+		
 	}
 	
-	private static void BuscarPorNombre()
-	
-	
-	/**
-	 * switch (option) {
-	 * 
-	 * 
-	 * case 2: System.out.println("Listado de usuarios por ID");
-	 * System.out.println("**************************");
-	 * 
-	 * for (Usuario u :dao.getAll()) {
-	 * 
-	 * System.out.println(u); } break; case 3: String palabraBuscada =
-	 * sc.nextLine();
-	 * 
-	 * usuarios =dao.getAllByNombre("%"+palabraBuscada+"%");
-	 * 
-	 * System.out.println("listado de Usuarios por nombre");
-	 * System.out.println("******************************");
-	 * 
-	 * for (Usuario usuario : usuarios) {
-	 * 
-	 * System.out.println(usuario); } break; case 4: try { boolean continuar = true;
-	 * usuarios = dao.getAll(); do { try { System.out.println("Dime el nombre del
-	 * usuario a insertar"); String nombre = sc.nextLine(); Usuario u = new
-	 * Usuario();
-	 * 
-	 * u = dao.insert(u);
-	 * 
-	 * continuar = false;
-	 * 
-	 * } catch (Exception e) { System.out.println("Lo sentimos pero el usuario ya
-	 * existe, dime otro:"); }
-	 * 
-	 * } while (continuar);
-	 * 
-	 * } catch (Exception e) {
-	 * 
-	 * System.out.println("Tenemos un problema " + e.getMessage()); }
-	 * 
-	 * }
-	 * 
-	 * break;
-	 * 
-	 * 
-	 * default:
-	 * 
-	 * break; }
-	 * 
-	 * /** switch (opcion) { case 1: ArrayList<Usuario> usuarios=dao.getAll();
-	 * 
-	 * System.out.println("listado de Usuarios");
-	 * System.out.println("*******************");
-	 * 
-	 * for (Usuario u : usuarios) { System.out.println(u); }
-	 * 
-	 * break; case 2:
-	 * 
-	 * System.out.println("Listado de usuarios por ID");
-	 * System.out.println("**************************");
-	 * 
-	 * for (Usuario u :dao.getAll()) {
-	 * 
-	 * System.out.println(u);
-	 * 
-	 * } break;
-	 * 
-	 * case 3:
-	 * 
-	 * String palabraBuscada = sc.nextLine();
-	 * 
-	 * ArrayList<Usuario>usuarios =dao.getAllByNombre("%"+palabraBuscada+"%");
-	 * 
-	 * System.out.println("listado de Usuarios por nombre");
-	 * System.out.println("******************************");
-	 * 
-	 * for (Usuario usuario : usuarios) {
-	 * 
-	 * System.out.println(usuario); }
-	 * 
-	 * break;
-	 * 
-	 * case 4:
-	 * 
-	 * try { boolean continuar = true; ArrayList<Usuario> usuarios = dao.getAll();
-	 * do { try { System.out.println("Dime el nombre del usuario a insertar");
-	 * String nombre = sc.nextLine(); Usuario u = new Usuario();
-	 * 
-	 * u = dao.insert(u);
-	 * 
-	 * continuar = false;
-	 * 
-	 * } catch (Exception e) { System.out.println("Lo sentimos pero el usuario ya
-	 * existe, dime otro:"); }
-	 * 
-	 * } while (continuar);
-	 * 
-	 * } catch (Exception e) {
-	 * 
-	 * System.out.println("Tenemos un problema " + e.getMessage()); }
-	 * 
-	 * }
-	 * 
-	 * break;
-	 * 
-	 * case 5:
-	 * 
-	 * System.out.println("Listado de Usuarios");
-	 * System.out.println("----------------------------------------");
-	 * 
-	 * for (Usuario u : dao.getAll()) { System.out.println(u); }
-	 * 
-	 * try { System.out.println("Dime el id para modificar el producto"); int id =
-	 * Integer.parseInt(sc.nextLine());
-	 * 
-	 * System.out.println("Dime el nuevo nombre del producto"); String nombre =
-	 * sc.nextLine();
-	 * 
-	 * Usuario u = new Usuario(); u.setId(id); u.setNombre(nombre);
-	 * 
-	 * dao.update(u); System.out.println("Tu lista se ha modificado con exito");
-	 * 
-	 * } catch (SQLException e) { System.out.println("Nombre duplicado");
-	 * 
-	 * } catch (Exception e) { System.out.println("persona no encontrada"); }
-	 * 
-	 * continuar = true;
-	 * 
-	 * }
-	 * 
-	 * break;
-	 * 
-	 * case 6:
-	 * 
-	 * System.out.println("Listado de productos");
-	 * 
-	 * System.out.println("--------------------");
-	 * 
-	 * 
-	 * for (Producto p : dao.getAll()) {
-	 * 
-	 * System.out.println(p); }
-	 * 
-	 * boolean continuar = true;
-	 * 
-	 * ArrayList<Usuario>usuarios= dao.getAll();
-	 * 
-	 * try{
-	 * 
-	 * do { try { System.out.println("Dime el numero del producto a Borrar"); int id
-	 * = Integer.parseInt(sc.nextLine());
-	 * 
-	 * Usuario usuario=new Usuario();
-	 * 
-	 * UsuarioDAO=dao.delete(id);
-	 * 
-	 * continuar=false;
-	 * 
-	 * } catch (Exception e) { System.out.println("Lo sentimos pero elproducto no
-	 * existe, dime otro:");
-	 * 
-	 * }
-	 * 
-	 * } while(continuar);
-	 * 
-	 * 
-	 * } catch (Exception e) {
-	 * 
-	 * System.out.println("Tenemos un problema " + e.getMessage());
-	 * 
-	 * }
-	 * 
-	 * break;
-	 * 
-	 * 
-	 * case 7: System.out.println("Cerrar el programa");
-	 * System.out.println("---------------------------------------------");
-	 * 
-	 * System.out.println("Hasta Pronto!!!");
-	 * 
-	 * continuar = false; break;
-	 * 
-	 * 
-	 * default: break; }
-	 * 
-	 * while(continuar);
-	 **/
-	}catch(
+	private static void buscar_id() {
+		System.out.println("Buscar Usuario por id");
+		System.out.println("---------------------------------------------");
+		
+		
+		System.out.println("Listado de Usuario");
+		System.out.println("---------------------------------------------");
+		
+		for (Usuario u : dao.getAll()) {
+			System.out.println(u);
+		}
+		
+		try{
+			
+			System.out.println("Dime el id del usuario que desea");
+			int id = Integer.parseInt(sc.nextLine());
+			
+			Usuario u = dao.getById(id);
+			System.out.println(u);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		continuar = true;
+		
+	}
 
-	Exception e)
-	{
-		System.out.println(e.getMessage());
+	
+	private static void eliminar() {
+		System.out.println("Eliminar Usuario");
+		System.out.println("---------------------------------------------");
+		
+		System.out.println("Listado de Usuarios");
+		System.out.println("----------------------------------------");
+		
+		for (Usuario u : dao.getAll()) {
+			System.out.println(u);
+		}
+		
+		try {
+			System.out.println("Dime el id para eliminar el producto");
+			int id = Integer.parseInt(sc.nextLine());
+			
+			Usuario uEliminado = dao.delete(id);
+			System.out.println("Eliminado con exito " + uEliminado.getNombre());
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	
+		continuar = true;
+		
+	}
+	
+	private static void insertar() {
+		System.out.println("Insertar Usuario");
+		System.out.println("---------------------------------------------");
+		
+		boolean continuar1 = true;
+		
+		try {
+		
+		   do {
+			 
+				try {
+					
+					  System.out.println("dime un nuevo usuario a guardar");
+					   String nombre = sc.nextLine();
+					   Usuario u = new Usuario();
+					   u.setNombre(nombre);
+					   
+					   u = dao.insert(u);
+					   continuar1 = false;
+					   
+					
+				} catch (Exception e) {
+					System.out.println("Lo sentimos pero el usuario ya existe, dime otro");
+				} 
+		   
+			
+		} while (continuar1);
+		
+		} catch (Exception e) {
+			System.out.println("Tenemos un problema " + e.getMessage());
+		}
+		
+		continuar = true;
+		
+	}
+	
+	private static void modificar() {
+		System.out.println("Modificar Usuario");
+		System.out.println("---------------------------------------------");
+		
+		System.out.println("Listado de Usuarios");
+		System.out.println("----------------------------------------");
+
+		for (Usuario u : dao.getAll()) {
+			System.out.println(u);
+		}
+
+		try {
+			System.out.println("Dime el id para modificar el producto");
+			int id = Integer.parseInt(sc.nextLine());
+
+			System.out.println("Dime el nuevo nombre del producto");
+			String nombre = sc.nextLine();
+
+			Usuario u = new Usuario();
+			u.setId(id);
+			u.setNombre(nombre);
+
+			dao.update(u);
+			System.out.println("Tu lista se ha modificado con exito");
+
+		} catch (SQLException e) {			
+			System.out.println("Nombre duplicado");
+			
+		} catch (Exception e) {
+			System.out.println("persona no encontrada");
+		}
+		
+		continuar = true;
+		
+	}
+	
+	
+	private static void buscar_nombre() {
+		System.out.println("Buscar Usuario por nombre");
+		System.out.println("---------------------------------------------");
+		
+		
+		try{
+			
+			System.out.println("Dime nombre a buscar:");
+			String palabraBuscada = sc.nextLine();
+			
+			ArrayList<Usuario> registro = dao.getAllByNombre(palabraBuscada);
+			//System.out.println(registro);
+			
+			if (registro.size() != 0) {
+				
+				for (Usuario u : registro) {
+					System.out.println(u);
+					
+				}
+				}else {
+					System.out.println("Lo sentimos pero no hay coincidencias");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		continuar = true;
+		
 	}
 
 }
+
+
