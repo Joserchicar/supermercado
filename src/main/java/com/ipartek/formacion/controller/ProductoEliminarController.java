@@ -18,40 +18,43 @@ import com.ipartek.formacion.modelo.ProductoDAO;
 @WebServlet("/producto-eliminar")
 public class ProductoEliminarController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ProductoEliminarController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+	public ProductoEliminarController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		// <td><a href="producto-eliminar?id=${p.id}">ELIMINAR</a></td>
 		// recoger parametro
 		String parametroId = request.getParameter("id");
 		int id = Integer.parseInt(parametroId);
-		
+
 		// llamr modelo
 		ProductoDAO dao = ProductoDAO.getInstance();
-		String mensaje  = "";
-		
+		String mensaje = "";
+
 		try {
 			Producto p = dao.delete(id);
 			mensaje = "Eliminado " + p.getNombre();
-			
+
 		} catch (Exception e) {
 			mensaje = "Error " + e.getMessage();
 			e.printStackTrace();
 		}
-		
+
 		// enviar datos a la vista
-		ArrayList<Producto> productos;
+		ArrayList<Producto> productos= new ArrayList();
+
 		try {
 			productos = dao.getAll();
 		} catch (Exception e) {
@@ -60,19 +63,18 @@ public class ProductoEliminarController extends HttpServlet {
 		}
 		request.setAttribute("productos", productos);
 		request.setAttribute("mensaje", mensaje);
-	
-		
+
 		// ir a la nueva vista o jsp
 		request.getRequestDispatcher("productos.jsp").forward(request, response);
-	
-	
-	
+
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

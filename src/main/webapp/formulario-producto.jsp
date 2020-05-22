@@ -4,9 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>formulario prooducto</title>
+<title>formulario producto</title>
 </head>
 <body>
+
+<a href="index.jsp">Volver</a>
 
 <h1>Formulario para crear un producto</h1> 
 
@@ -14,9 +16,13 @@
 
 <form action="producto-crear" method="post"> 
 
-	<input type="text" name="nombre"placeholder="escribe el nombre del producto">
-	
-	<input type="submit" value="crear">	
+	<label for="id">id:</label>
+	<input type="text" name="id" id="id" value="${producto.id}" >
+	<br>
+	<label for="nombre">nombre:</label>
+	<input type="text" name="nombre" value="${producto.nombre}" placeholder="escribe el nombre del producto">
+	<br>
+	<input type="submit" value="guardar">	
 
 </form>
 

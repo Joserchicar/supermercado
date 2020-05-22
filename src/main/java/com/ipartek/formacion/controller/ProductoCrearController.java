@@ -15,59 +15,86 @@ import com.ipartek.formacion.modelo.ProductoDAO;
  */
 @WebServlet("/producto-crear")
 public class ProductoCrearController extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ProductoCrearController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//recoger los valores del formulario
-		
-		
-		String nombre=request.getParameter("nombre");
-		Producto producto=new Producto();
-		String mensaje="";
-		ProductoDAO dao = ProductoDAO.getInstance();
-		
-		producto.setNombre(nombre);
-		
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String mensaje = "";
 		try {
-		mensaje=" El producto se ha insertado correctamente";
-		
-			doGet(request, response);
-		}catch(Exception e){  
-			
-			mensaje=" El producto no se ha insertado. se ha producido el error "+ e.getMessage();
-			
+			String parametroId = request.getParameter("id");
+			Producto producto = new Producto();
+
+			if (parametroId != null) {
+
+				int id = Integer.parseInt(parametroId);
+				ProductoDAO dao = ProductoDAO.getInstance();
+				producto = dao.getById(id);
+			}
+
+			request.setAttribute("producto", producto);
+
+		} catch (Exception e) {
+			mensaje = "Lo sentimos fallo en GET " + e.getMessage();
 			e.printStackTrace();
+
+		} finally {
+
+			// ir a la nueva vista o jsp
+			request.getRequestDispatcher("formulario-producto.jsp").forward(request, response);
 		}
-		
-		//insertar mensaje en la vista
-		
-		request.setAttribute("mensaje", mensaje);
-		
-		// ir a la nueva vista o jsp
-				request.getRequestDispatcher("formulario-producto").forward(request, response);	
-		}
-		
+
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
+		String mensaje = "";
+		Producto producto = new Producto();
+
+		try {
+			// recoger los valores del formulario
+			String idParametro = request.getParameter("id");
+			String nombre = request.getParameter("nombre");
+
+			int id = Integer.parseInt(idParametro);
+
+			ProductoDAO dao = ProductoDAO.getInstance();
+
+			producto.setId(id);
+			producto.setNombre(nombre);
+
+			if (id == 0) {
+				dao.insert(producto);
+
+			} else {
+				dao.update(producto);
+			}
+
+			mensaje = "Producto guardado";
+
+		} catch (Exception e) {
+			mensaje = "Lo sentimos pero hemos tenido una Excepcion " + e.getMessage();
+			e.printStackTrace();
+
+		} finally {
+			// enviar datos a la vista
+			request.setAttribute("mensaje", mensaje);
+			request.setAttribute("producto", producto);
+
+			// ir a la nueva vista o jsp
+			request.getRequestDispatcher("formulario-producto.jsp").forward(request, response);
+
+		}
+
+	}
+
+}
