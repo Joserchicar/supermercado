@@ -59,11 +59,11 @@
 
 
 			<fieldset >
-				<legend>horario:</legend>
+				<legend>hour:</legend>
 
-				<input type="checkbox" id="fulltime" name="hours" value="ft">
+				<input type="checkbox" id="fulltime" name="hour" value="ft">
 				<label for="fulltime"> Full time</label><br> <input
-					type="checkbox" id="parttime" name="hours" value="pt"> <label
+					type="checkbox" id="parttime" name="hour" value="pt"> <label
 					for="parttime"> Part time</label><br> <input type="checkbox"
 					id="all" name="hours" value="all" checked> <label for="all">
 					All</label><br>

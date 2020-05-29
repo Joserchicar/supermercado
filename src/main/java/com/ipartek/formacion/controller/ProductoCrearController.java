@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.modelo.Producto;
-import com.ipartek.formacion.modelo.ProductoDAO;
+import com.ipartek.formacion.modelo.ProductoDAOImpl;
 
 /**
  * Servlet implementation class ProductoCrearController
  */
-@WebServlet("/producto-crear")
+@WebServlet("/producto")
 public class ProductoCrearController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -24,7 +24,7 @@ public class ProductoCrearController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String mensaje = "";
+		Alerta alerta = new Alerta();
 		try {
 			String parametroId = request.getParameter("id");
 			Producto producto = new Producto();
@@ -32,14 +32,14 @@ public class ProductoCrearController extends HttpServlet {
 			if (parametroId != null) {
 
 				int id = Integer.parseInt(parametroId);
-				ProductoDAO dao = ProductoDAO.getInstance();
+				ProductoDAOImpl dao = ProductoDAOImpl.getInstance();
 				producto = dao.getById(id);
 			}
 
 			request.setAttribute("producto", producto);
 
 		} catch (Exception e) {
-			mensaje = "Lo sentimos fallo en GET " + e.getMessage();
+			alerta = new Alerta ("danger","Lo sentimos fallo en GET " + e.getMessage());
 			e.printStackTrace();
 
 		} finally {
@@ -57,20 +57,25 @@ public class ProductoCrearController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String mensaje = "";
+		 Alerta alerta =new Alerta(); 
 		Producto producto = new Producto();
 
 		try {
 			// recoger los valores del formulario
 			String idParametro = request.getParameter("id");
 			String nombre = request.getParameter("nombre");
-
+			String precio = request.getParameter("precio");
+			String imagen = request.getParameter("imagen");
+			
 			int id = Integer.parseInt(idParametro);
+			float preciofloat= Float.parseFloat("precio");
 
-			ProductoDAO dao = ProductoDAO.getInstance();
+			ProductoDAOImpl dao = ProductoDAOImpl.getInstance();
 
 			producto.setId(id);
 			producto.setNombre(nombre);
+			producto.setImagen(imagen);
+			producto.setPrecio(preciofloat);
 
 			if (id == 0) {
 				dao.insert(producto);
@@ -79,15 +84,15 @@ public class ProductoCrearController extends HttpServlet {
 				dao.update(producto);
 			}
 
-			mensaje = "Producto guardado";
+			alerta= new Alerta ("success", "Producto guardado");
 
 		} catch (Exception e) {
-			mensaje = "Lo sentimos pero hemos tenido una Excepcion " + e.getMessage();
+			alerta = new Alerta("danger","Lo sentimos pero hemos tenido una Excepcion " + e.getMessage());
 			e.printStackTrace();
 
 		} finally {
 			// enviar datos a la vista
-			request.setAttribute("mensaje", mensaje);
+			request.setAttribute("alerta", alerta);
 			request.setAttribute("producto", producto);
 
 			// ir a la nueva vista o jsp
@@ -95,6 +100,6 @@ public class ProductoCrearController extends HttpServlet {
 
 		}
 
-	}
+	}// dopost
 
 }

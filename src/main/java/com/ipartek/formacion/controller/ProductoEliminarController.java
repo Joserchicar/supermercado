@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.modelo.Producto;
-import com.ipartek.formacion.modelo.ProductoDAO;
+import com.ipartek.formacion.modelo.ProductoDAOImpl;
 
 /**
  * Servlet implementation class ProductoEliminarController
@@ -40,7 +40,7 @@ public class ProductoEliminarController extends HttpServlet {
 		int id = Integer.parseInt(parametroId);
 
 		// llamr modelo
-		ProductoDAO dao = ProductoDAO.getInstance();
+		ProductoDAOImpl dao = ProductoDAOImpl.getInstance();
 		String mensaje = "";
 
 		try {
@@ -75,7 +75,7 @@ public class ProductoEliminarController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

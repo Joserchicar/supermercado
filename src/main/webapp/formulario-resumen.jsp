@@ -29,8 +29,8 @@
     <h3>hours:</h3>
     
     <%
-        ArrayList<String> hoursSelected = (ArrayList<String>) request.getAttribute("${hours}");    
-        for (String hoursSelecte :) {
+        ArrayList<String> hours = (ArrayList<String>) request.getAttribute("hoursSelected");    
+        for (String hour : hours) {
     %> 
   		  <p> <%=hours%> </p>
  
