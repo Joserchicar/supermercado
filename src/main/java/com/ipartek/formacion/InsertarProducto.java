@@ -15,7 +15,7 @@ public class InsertarProducto {
 		final String URL="jdbc:mysql://localhost/supermercado";
 		final String USUARIO="debian-sys-maint";
 		final String PASS ="o8lAkaNtX91xMUcV";
-		final String SQL="INSERT INTO producto(nombre,id_usuario) VALUES (?,1);";
+		final String SQL="INSERT INTO producto(nombre,imagen, precio,id_usuario,) VALUES (?,?,?,1);";
 		
 		
 		

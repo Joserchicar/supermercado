@@ -12,6 +12,7 @@ package com.ipartek.formacion.modelo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -63,10 +64,16 @@ private static ProductoDAOImpl INSTANCE = null;
 				
 				int id        = rs.getInt("id");
 				String nombre = rs.getString("nombre");
+				String foto = rs.getString("imagen");
+				float precio= rs.getFloat("precio");
 				
 				Producto p = new Producto(nombre);
 				p.setId(id);
-								
+				p.setImagen(foto);
+				p.setPrecio(precio);
+				
+				
+					//guardar en lista			
 				registros.add(p);			
 				
 			} // while
@@ -99,6 +106,10 @@ private static ProductoDAOImpl INSTANCE = null;
 				
 				registro.setId(rs.getInt("id"));
 				registro.setNombre(rs.getString("nombre"));
+				registro.setImagen(rs.getString("imagen"));
+				registro.setPrecio(rs.getFloat("precio"));
+				
+				
 				
 			} else {
 				throw new Exception ("no se encuentra registro con id= " +id); 
@@ -147,9 +158,20 @@ private static ProductoDAOImpl INSTANCE = null;
 			
 			int affectedRows = pst.executeUpdate();
 		// affedetedRows es el numero de registros insertados
+			
 		if (affectedRows == 1) {
-			System.out.println("El producto se ha guardado con exito");
-			//continuar = false;
+			
+			//conseguir el ID
+			
+			try( ResultSet rsKeys = pst.getGeneratedKeys() ){
+				
+				if ( rsKeys.next() ) {
+					int id = rsKeys.getInt(1);
+					p.setId(id);
+				}
+				
+			}
+			
 		}else {
 			throw new Exception("No se ha podido guardar");
 		}
@@ -181,21 +203,23 @@ private static ProductoDAOImpl INSTANCE = null;
 			if (affectedRows!= 1) {
 				throw new Exception("no se puede modificar el registro "+ p.getId());
 			}
-		}catch (Exception e) {
+		}catch (SQLException e) {
 				throw new Exception(" El nombre"+p.getNombre() + " del producto ya existe");
 		}
 		
 		return p;
 	}
 
+
+
 	@Override
-	public ArrayList<Producto> getAllByNombre(String nombre) {
+	public ArrayList<Producto> getAllRangoPrecio(int precioMinimo, int precioMaximo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Producto> getAllRangoPrecio(int precioMinimo, int precioMaximo) {
+	public ArrayList<Producto> getAllByNombre(String nombre) {
 		// TODO Auto-generated method stub
 		return null;
 	}
