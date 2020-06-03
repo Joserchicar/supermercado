@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.apache.taglibs.standard.tag.common.core.CatchTag;
+
 import com.ipartek.formacion.ejercicios.bbdd.modelo.ConnectionManager;
 
 public class UsuarioDAOImpl implements UsuarioDAO {
@@ -29,7 +31,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	private final String SQL_GET_ALL = " SELECT id, nombre FROM usuario ORDER BY id DESC;";
 	private final String SQL_GET_BY_ID = " SELECT id, nombre FROM usuario WHERE id=?; ";
 	private final String SQL_GET_BY_NOMBRE = "SELECT id, nombre FROM usuario WHERE nombre like ?; ";
-
+	private final String SQL_EXISTE = "SELECT id, nombre, contrasenia,id_rol FROM usuario WHERE nombre = ? AND contrasenia = ?; ";
 	// executeUpdate=> int numero de filas afectadas
 
 	private final String SQL_INSERT = " INSERT INTO usuario (nombre,contrasenia, id_rol) VALUES ( ? , 12345,1) ; ";
@@ -119,10 +121,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	public Usuario insert(Usuario pojo) throws Exception {
 
 		try (Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(SQL_INSERT, com.mysql.jdbc.PreparedStatement.RETURN_GENERATED_KEYS);
+				PreparedStatement pst = conexion.prepareStatement(SQL_INSERT,
+						com.mysql.jdbc.PreparedStatement.RETURN_GENERATED_KEYS);
 
 		) {
-		pst.setString(1, pojo.getNombre());
+			pst.setString(1, pojo.getNombre());
 			int affectedRows = pst.executeUpdate();
 			// affedetedRows es el numero de registros insertados
 			if (affectedRows == 1) {
@@ -170,13 +173,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		try (Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_NOMBRE);
 				ResultSet rs = pst.executeQuery();) {
-			
-			pst.setString(1, "%"+ palabraBuscada+ "%");
-			
-			
+
+			pst.setString(1, "%" + palabraBuscada + "%");
+
 			while (rs.next()) {
 
-				
 				int id = rs.getInt("id");
 				String nombre = rs.getString("nombre");
 
@@ -194,6 +195,37 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		}
 
 		return registros;
+	}
+
+	@Override
+	public Usuario existe(String nombre, String password) {
+
+		Usuario registro = null;
+
+		try (Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_EXISTE);
+
+		) {
+
+			pst.setString(1, nombre);
+			pst.setString(2, password);
+
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next()) {
+				registro = new Usuario();
+				registro.setId(rs.getInt("id"));
+				registro.setNombre(rs.getString("nombre"));
+
+			}
+
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+
+		}
+		return registro;
 	}
 
 }

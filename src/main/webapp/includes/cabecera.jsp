@@ -52,7 +52,7 @@ title> ${param.title} | Supermercado
 					href="index.jsp">Inicio</a></li>
 
 
-				<c:if test="${not empty isLogeado }">
+				<c:if test="${not empty usuario_login }">
 					<li class="nav-item"><a
 						class="nav-link ${ ( 'productos' eq param.pagina ) ? 'active' : '' } "
 						href="formulario-producto.jsp"> crear Productos</a></li>
@@ -64,11 +64,11 @@ title> ${param.title} | Supermercado
 
 			</ul>
 
-			<span class="form-inline"> <c:if test="${ empty isLogeado }">
+			<span class="form-inline"> <c:if test="${ empty usuario_login }">
 					<a class="nav-link  btn btn-outline-warning" href="login.jsp">Iniciar
 						Sesión</a>
-				</c:if> <c:if test="${ not empty isLogeado }">
-					<span class="text-primary">${nombreUsuario}</span>
+				</c:if> <c:if test="${ not empty usuario_login }">
+					<span class="text-primary">${usuario_login.nombre}</span>
 					<a class="nav-link  btn btn-outline-warning" href="Logout">Cerrar
 						Sesión</a>
 				</c:if>

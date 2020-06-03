@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.ipartek.formacion.modelo.Usuario;
+import com.ipartek.formacion.modelo.UsuarioDAOImpl;
+
 /**
  * Servlet implementation class loginController
  */
@@ -53,23 +56,22 @@ public class loginController extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		
-		//TODO validar contra BBDD
-		if ( "admin".equals(nombre) && "123456".equals(pass) ){
+		
+		UsuarioDAOImpl dao = UsuarioDAOImpl.getInstance();
+		Usuario registro = dao.existe(nombre, pass);
+		
+		if ( registro != null) {
 		
 			
 			session.setMaxInactiveInterval( 60 * 5 ); // 5 minutos sin peticiones, se invalida la session del usuario
-			session.setAttribute("isLogeado", true );
-			session.setAttribute("nombreUsuario", "Admin" );
+		
+			session.setAttribute("usuario_login", registro );
 			
 			request.setAttribute("alerta", new Alerta("success", "Ongi Etorri, ya esats Logeado"));
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 			
 			
 		}else {
-			
-			//TODO logoout controller
-			session.invalidate();
-			session=null;
 						
 			request.setAttribute("alerta", new Alerta("warning", "Credenciales Incorrectas"));
 			request.getRequestDispatcher("login.jsp").forward(request, response);
