@@ -53,7 +53,7 @@ public class LogoutController extends HttpServlet {
 			break;
 
 		case "eu":
-			mensaje = "Agur eta ohore";
+			mensaje = "Agur , Ikusi Arte";
 			break;
 
 		default:

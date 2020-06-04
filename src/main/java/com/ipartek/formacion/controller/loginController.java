@@ -18,70 +18,63 @@ import com.ipartek.formacion.modelo.UsuarioDAOImpl;
 @WebServlet("/login")
 public class loginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public loginController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public loginController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String nombre = request.getParameter("nombre");
 		String pass = request.getParameter("pass");
 		String idioma = request.getParameter("idioma");
-		
-		
-		//crear cookie de idioma
+
+		// crear cookie de idioma
 		Cookie cIdioma = new Cookie("cIdioma", idioma);
-		cIdioma.setMaxAge( 60 * 1 * 60 * 24 * 365 * 5 ); // 5 años
-		// guardar cookie 
+		cIdioma.setMaxAge(60 * 1 * 60 * 24 * 365 * 5); // 5 años
+		// guardar cookie
 		response.addCookie(cIdioma);
-		
-		
 
 		HttpSession session = request.getSession();
-		
-		
+
 		UsuarioDAOImpl dao = UsuarioDAOImpl.getInstance();
-		Usuario registro = dao.existe(nombre, pass);
-		
-		if ( registro != null) {
-		
-			
-			session.setMaxInactiveInterval( 60 * 5 ); // 5 minutos sin peticiones, se invalida la session del usuario
-		
-			session.setAttribute("usuario_login", registro );
-			
-			request.setAttribute("alerta", new Alerta("success", "Ongi Etorri, ya esats Logeado"));
+		Usuario usuario = dao.existe(nombre, pass);
+
+		if (usuario != null) {
+
+			session.setMaxInactiveInterval(60 * 5); // 5 minutos sin peticiones, se invalida la session del usuario
+			session.setAttribute("usuario_login", usuario);
+
+			request.setAttribute("alerta", new Alerta("success", "Ongi Etorri, ya estas Logeado"));
 			request.getRequestDispatcher("index.jsp").forward(request, response);
-			
-			
-		}else {
-						
+
+		} else {
+
 			request.setAttribute("alerta", new Alerta("warning", "Credenciales Incorrectas"));
 			request.getRequestDispatcher("login.jsp").forward(request, response);
-			
+
 		}
-		
-		
-		
-		
-		
+
 	}
 
 }
