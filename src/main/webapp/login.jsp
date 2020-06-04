@@ -6,7 +6,7 @@
 	
 
 	
-	<form action="login" method="post">
+	<form action="login" method="post"class="form-login" onsubmit="cifrar()">
 	
 	
 		<input type="text" name="nombre" placeholder="Tu Nombre">
@@ -21,7 +21,7 @@
 		</select>
 		
 		<br>
-		<input type="submit" value="Iniciar Sesión">
+		<input type="submit" value="Iniciar Sesión"class="btn btn-primary btn-block">
 	
 	</form>
 	

@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Index</title>
+
 <!-- fontawesome 5 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
@@ -16,6 +17,10 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
+
+<!-- datatables -->
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="css/styles.css">
@@ -60,14 +65,22 @@ title> ${param.title} | Supermercado
 						class="nav-link ${ ( 'productos' eq param.pagina ) ? 'active' : '' } "
 						href="productos">lista Productos</a></li>
 
+					<li class="nav-item"><a
+						class="nav-link ${ ( 'usuario' eq param.pagina ) ? 'active' : '' } "
+						href="Usuario">Usuarios</a></li>
+
+
+
 				</c:if>
 
 			</ul>
 
-			<span class="form-inline"> <c:if test="${ empty usuario_login }">
+			<span class="form-inline"> 
+				<c:if test="${ empty usuario_login }">
 					<a class="nav-link  btn btn-outline-warning" href="login.jsp">Iniciar
 						Sesión</a>
-				</c:if> <c:if test="${ not empty usuario_login }">
+				</c:if> 
+				<c:if test="${ not empty usuario_login }">
 					<span class="text-primary">${usuario_login.nombre}</span>
 					<a class="nav-link  btn btn-outline-warning" href="Logout">Cerrar
 						Sesión</a>

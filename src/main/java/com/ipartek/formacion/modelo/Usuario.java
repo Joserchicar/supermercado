@@ -4,14 +4,15 @@ public class Usuario {
 	private int id;
 	private String nombre;
 	private String contrasenia;
-	private int id_rol;
+	//TODO Rol usar objeto
+	private int idRol;
 	
 	public Usuario() {
 		super();
 		this.id = 0;
 		this.nombre = "";
 		this.contrasenia="";
-		this.id_rol=0;
+		this.idRol=0;
 		
 	}
 
@@ -29,6 +30,22 @@ public class Usuario {
 		return id;
 	}
 
+	public String getContrasenia() {
+		return contrasenia;
+	}
+
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+
+	public int getIdRol() {
+		return idRol;
+	}
+
+	public void setIdRol(int idRol) {
+		this.idRol = idRol;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -43,8 +60,11 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Alumno [id=" + id + ", nombre=" + nombre + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", contrasenia=" + contrasenia + ", idRol=" + idRol + "]";
 	}
+
+	
+	
 	
 
 }

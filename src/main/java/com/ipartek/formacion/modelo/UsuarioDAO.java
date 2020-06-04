@@ -31,10 +31,7 @@ public interface UsuarioDAO extends CrudAble<Usuario>{
 	
 	
 	Usuario existe (String nombre, String password);
-	
-	
-	
-	
+		
 	
 }
 
