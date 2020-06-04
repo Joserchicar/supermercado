@@ -16,15 +16,16 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	private static UsuarioDAOImpl INSTANCE = null;
 
 	// executequery=>ResultSet
-	private final String SQL_GET_ALL = " SELECT id, nombre, contrasenia, id_rol  FROM usuario ORDER BY id DESC;";
-	private final String SQL_GET_BY_ID = " SELECT id, nombre, contrasenia, id_rol FROM usuario WHERE id=?; ";
-	private final String SQL_GET_BY_NOMBRE = "SELECT id, nombre, contrasenia, id_rol FROM usuario WHERE nombre like ?; ";
-	private final String SQL_EXISTE = "SELECT id, nombre, contrasenia,id_rol FROM usuario WHERE nombre = ? AND contrasenia = ?; ";
+	static final String SQL_GET_ALL_BY_NOMBRE = " SELECT u.id, u.nombre, contrasenia, id_rol, r.nombre AS 'nombre_rol' FROM usuario AS u INNER JOIN rol AS r ON u.id_rol = r.id WHERE nombre LIKE ? ;   ";
+	static final String SQL_GET_ALL = " SELECT u.id, u.nombre, contrasenia, id_rol, r.nombre AS 'nombre_rol' FROM usuario AS u INNER JOIN rol AS r ON u.id_rol = r.id ORDER BY u.id DESC; ";
+	static final String SQL_GET_BY_ID = " SELECT u.id, u.nombre, contrasenia, id_rol, r.nombre AS 'nombre_rol' FROM usuario AS u INNER JOIN rol AS r ON u.id_rol = r.id WHERE u.id = ? ; ";
+	static final String SQL_EXISTE = " SELECT u.id, u.nombre, contrasenia, id_rol, r.nombre AS 'nombre_rol' FROM usuario AS u INNER JOIN rol AS r ON u.id_rol = r.id WHERE u.nombre = ? AND contrasenia = ? ; ";
 	// executeUpdate=> int numero de filas afectadas
 
-	private final String SQL_INSERT = " INSERT INTO usuario (nombre,contrasenia, id_rol) VALUES ( ? , 12345,1) ; ";
-	private final String SQL_DELETE = "DELETE FROM usuario WHERE id=?;";
-	private final String SQL_UPDATE = "UPDATE usuario SET nombre=? WHERE id=?; ";
+	// executeUpdate => int
+	static final String SQL_INSERT = " INSERT INTO usuario(nombre, contrasenia, id_rol) VALUES( ? , ? , ? ); ";
+	static final String SQL_DELETE = " DELETE FROM usuario WHERE id = ? ;";
+	static final String SQL_UPDATE = " UPDATE usuario SET nombre = ?, contrasenia = ? , id_rol = ? WHERE id = ? ; ";
 
 	private UsuarioDAOImpl() {
 		super();
@@ -50,8 +51,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 			System.out.println("SQL= " + pst);
 
-			while (rs.next()) {				
-				usuarios.add( mapper(rs) );
+			while (rs.next()) {
+				usuarios.add(mapper(rs));
 			}
 
 		} catch (Exception e) {
@@ -115,7 +116,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	public Usuario insert(Usuario pojo) throws Exception {
 
 		try (Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);) {
+				PreparedStatement pst = conexion.prepareStatement(SQL_INSERT,
+						PreparedStatement.RETURN_GENERATED_KEYS);) {
 
 			pst.setString(1, pojo.getNombre());
 
@@ -162,14 +164,14 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		ArrayList<Usuario> registros = new ArrayList<Usuario>();
 
 		try (Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_NOMBRE);) {
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL_BY_NOMBRE);) {
 
 			pst.setString(1, "%" + palabraBuscada + "%");
 
 			try (ResultSet rs = pst.executeQuery()) {
 
 				while (rs.next()) {
-					registros.add( mapper(rs) );
+					registros.add(mapper(rs));
 				} // while
 
 			} // 2º try
@@ -192,8 +194,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 		) {
 
-			pst.setString(1 , nombre);
-			pst.setString(2 , password);
+			pst.setString(1, nombre);
+			pst.setString(2, password);
 
 			System.out.println("SQL= " + pst);
 
@@ -201,7 +203,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 				if (rs.next()) {
 					usuario = mapper(rs);
-				} 
+				}
 
 			} // 2º try
 
@@ -211,19 +213,26 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 		return usuario;
 	}
-	
-	
-	private Usuario mapper( ResultSet rs ) throws SQLException {
-		
+
+	private Usuario mapper(ResultSet rs) throws SQLException {
+
 		Usuario usuario = new Usuario();
-		
+
 		usuario.setId(rs.getInt("id"));
 		usuario.setNombre(rs.getString("nombre"));
-		usuario.setContrasenia( rs.getString("contrasenia"));
-		usuario.setIdRol( rs.getInt("id_rol"));
+		usuario.setContrasenia(rs.getString("contrasenia"));
 		
+		//inclusion de ROl desde la tabla de Roles
+		//Creamos el objeto rol y sus setters
+		Rol rol=new Rol();
+		rol.setId(rs.getInt("id_rol"));
+		rol.setNombre("nombre_rol");
+		
+		//setter el rol para el usuario
+		usuario.setRol(rol); 
+
 		return usuario;
-		
+
 	}
 
 }

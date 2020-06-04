@@ -1,21 +1,20 @@
 package com.ipartek.formacion.modelo;
 
 public class Rol {
+	
 private int id;
 private String nombre;
 
 public Rol() {
-	this.id=0;
+	super();
+	this.id=1;
 	this.nombre="";
 	 	
-
-	
 }
 
-public Rol(String nombre) {
+public Rol(int id) {
 	this();
-	this.id=0;
-	this.nombre="";
+	this.id=id;
 }
 
 public int getId() {

@@ -4,7 +4,7 @@
    @github: .......
 ************************************************************/
 
-main[role="main"] {
+main {
     margin-top: 4rem;
     min-height: 80vh;
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ipartek.formacion.modelo.Rol;
 import com.ipartek.formacion.modelo.Usuario;
 import com.ipartek.formacion.modelo.UsuarioDAOImpl;
 
@@ -74,18 +75,28 @@ public class UsuarioController extends HttpServlet {
 		String idParametro = request.getParameter("id");
 		String rol = request.getParameter("rol");
 		String nombre = request.getParameter("nombre");
+		// nuevo usuari-uintroducir pass
 		String pass = request.getParameter("pass");
+
+		// cambio de contraseña
+
+		String passNuevo = request.getParameter("passNuevo");
+		String passNuevoConfirmacion = request.getParameter("passNuevoConfirmacion");
 
 		Usuario usuario = new Usuario();
 
 		try {
 
 			int id = Integer.parseInt(idParametro);
-			int idRol = Integer.parseInt(rol);
 
 			usuario.setId(id);
-			usuario.setIdRol(idRol);
 			usuario.setNombre(nombre);
+
+			// int idRol = Integer.parseInt(rol);
+			// usuario.setIdRol(idRol);
+			// creamos el nuevo idRol.
+			int idRol = Integer.parseInt(rol);
+			usuario.setRol(new Rol(idRol));
 
 			if (id == 0) {
 
@@ -95,9 +106,26 @@ public class UsuarioController extends HttpServlet {
 
 			} else {
 
-				// recupero la contrseña de la bbdd TODO mirar como cambiarla
-				Usuario uGuardado = daoUsuario.getById(id);
-				usuario.setContrasenia(uGuardado.getContrasenia());
+				if (!"".equals(passNuevoConfirmacion)) {
+
+					if (passNuevo.equals(passNuevoConfirmacion)) {
+
+						// cambio de contraseña
+						usuario.setContrasenia(passNuevo);
+
+					} else {
+
+						throw new Exception("Las contraseñas no coinciden");
+					}
+
+				} else {
+
+					// mantener la contraseña y NO cambiarla
+					// recupero usuario de la base datos para mantener su contraseña y no cambiarla
+					Usuario uGuardado = daoUsuario.getById(id);
+					usuario.setContrasenia(uGuardado.getContrasenia());
+
+				}
 
 				daoUsuario.update(usuario);
 			}
