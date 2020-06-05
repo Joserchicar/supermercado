@@ -140,6 +140,8 @@ public class UsuarioController extends HttpServlet {
 
 			request.setAttribute("usuario", usuario);
 			request.getRequestDispatcher(VIEW_FORM).forward(request, response);
+			
+			
 		}
 	}
 
