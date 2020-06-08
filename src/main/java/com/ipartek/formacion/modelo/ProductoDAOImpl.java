@@ -22,8 +22,7 @@ import com.ipartek.formacion.ejercicios.bbdd.modelo.ConnectionManager;
 
 public class ProductoDAOImpl implements ProductoDAO {
 
-	
-private static ProductoDAOImpl INSTANCE = null;
+	private static ProductoDAOImpl INSTANCE = null;
 	
 	private ProductoDAOImpl() {
 		super();	
