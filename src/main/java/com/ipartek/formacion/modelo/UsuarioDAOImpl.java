@@ -189,8 +189,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 		Usuario usuario = null;
 
-		try (Connection con = ConnectionManager.getConnection();
-				PreparedStatement pst = con.prepareStatement(SQL_EXISTE);
+		try (Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_EXISTE);
 
 		) {
 
