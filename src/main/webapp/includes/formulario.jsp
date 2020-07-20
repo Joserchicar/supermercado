@@ -58,7 +58,7 @@
 			<br>
 
 
-			<fieldset >
+			<fieldset>
 				<legend>hour:</legend>
 
 				<input type="checkbox" id="fulltime" name="hour" value="ft">
@@ -82,5 +82,7 @@
 			<br> <input type="submit" value="Send">
 
 		</form>
+	</div>
+
 </body>
 </html>

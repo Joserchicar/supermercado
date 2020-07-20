@@ -24,8 +24,8 @@ public class RolDAOImpl implements RolDAO {
 		return INSTANCE;
 	}
 	// executequery=>ResultSet
-		private final String SQL_GET_ALL = " SELECT id, nombre FROM rol ORDER BY id DESC;";
-		private final String SQL_GET_BY_ID = " SELECT id, nombre FROM rol WHERE id=?; ";
+		private final String SQL_GET_ALL = " SELECT id, nombre FROM rol ORDER BY id DESC LIMIT 500;";
+		private final String SQL_GET_BY_ID = " SELECT id, nombre FROM rol WHERE id=? LIMIT 500; ";
 		
 
 		// executeUpdate=> int numero de filas afectadas

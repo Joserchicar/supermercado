@@ -16,7 +16,7 @@
 
 
 			<input type="text" name="nombre" placeholder="nombre de usuario">
-			<br> </select> <br> <input type="submit" value="guardar">
+			<br> <s/select> <br> <input type="submit" value="guardar">
 
 		</form>
 

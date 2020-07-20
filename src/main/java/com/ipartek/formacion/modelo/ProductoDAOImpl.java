@@ -38,14 +38,14 @@ public class ProductoDAOImpl implements ProductoDAO {
 	}
 	
 //executequery=>ResultSet
-	private final String SQL_GET_ALL = " SELECT id, nombre, imagen, precio  FROM producto ORDER BY id DESC; ";
-	private final String SQL_GET_BY_ID = " SELECT id, imagen, precio, nombre FROM producto WHERE id = ? ; ";
+	private final String SQL_GET_ALL = " SELECT id, nombre, imagen, precio  FROM producto ORDER BY id DESC LIMIT 500; ";
+	private final String SQL_GET_BY_ID = " SELECT id, imagen, precio, nombre FROM producto WHERE id = ? LIMIT 500; ";
 	
 	//executeUpdate=> int numero de filas afectadas
 	//TODO faltan imagen y precio
 	private final String SQL_INSERT= " INSERT INTO producto (nombre,imagen,precio, id_usuario) VALUES ( ? ,?,?, 1) ; ";
 	private final String SQL_DELETE="DELETE FROM producto WHERE id=?;";
-	private final String SQL_UPDATE="UPDATE producto SET nombre=?,imagen=?,precio=? WHERE id=?; ";
+	private final String SQL_UPDATE="UPDATE producto SET nombre=?,imagen=?,precio=? WHERE id=? ; ";
 	
 	 
 	@Override

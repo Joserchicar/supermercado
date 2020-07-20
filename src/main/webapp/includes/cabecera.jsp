@@ -81,7 +81,7 @@ title> ${param.title} | Supermercado
 						Sesión</a>
 				</c:if> 
 				<c:if test="${ not empty usuario_login }">
-					<span class="text-primary">${usuario_login.nombre}</span>
+					<span class="text-primary">${usuarios_conectados.n}  ${usuario_login.nombre}</span>
 					<a class="nav-link  btn btn-outline-warning" href="Logout">Cerrar
 						Sesión</a>
 				</c:if>

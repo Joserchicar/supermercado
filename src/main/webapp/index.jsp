@@ -42,5 +42,10 @@
 <br>
 <a href="ResultadoB.jsp">Apartado B</a>
 <br>
+<a href="custom-tag.jsp">Apartado B</a>
+<br>
+
+
+
 <%@include file="includes/pie.jsp" %>
 
