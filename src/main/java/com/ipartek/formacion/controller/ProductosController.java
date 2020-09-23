@@ -9,18 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ipartek.formacion.modelo.dao.impl.UsuarioDAOImpl;
-import com.ipartek.formacion.modelo.pojo.Usuario;
+import com.ipartek.formacion.modelo.dao.impl.ProductoDAOImpl;
+import com.ipartek.formacion.modelo.pojo.Producto;
 
 /**
- * Servlet implementation class TablaAlumnoController
+ * Servlet implementation class ProductosController
  */
-@WebServlet("/ver-tabla-alumnos")
-public class TablaAlumnoController extends HttpServlet {
-	
+@WebServlet("/productos")
+public class ProductosController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-  
+   
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,19 +33,17 @@ public class TablaAlumnoController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//llamar a la base datos para conseguir los productos
+		ProductoDAOImpl dao = ProductoDAOImpl.getInstance();
+		ArrayList<Producto> productos = dao.getAll();
 		
-		// conseguir los alumnos de la bbdd
 		
-		UsuarioDAOImpl dao = UsuarioDAOImpl.getInstance();		
-		ArrayList<Usuario> alumnos = dao.getAll();
+		// datos para enviar a la vista
+		request.setAttribute("productos", productos);
 		
-		// enviar la informacion a la vista		
-		request.setAttribute( "alumnos" , alumnos );
 		
 		// ir a la nueva vista o jsp
-		request.getRequestDispatcher("tabla-alumnos.jsp").forward(request, response);
-		
-		
+		request.getRequestDispatcher("views/productos/index.jsp").forward(request, response);
 		
 	}
 

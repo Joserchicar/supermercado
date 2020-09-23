@@ -1,27 +1,23 @@
-package com.ipartek.formacion.controller;
+package com.ipartek.formacion.controller.ejemplos;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.ipartek.formacion.modelo.dao.impl.UsuarioDAOImpl;
-import com.ipartek.formacion.modelo.pojo.Usuario;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class TablaAlumnoController
+ * Servlet implementation class EjemploScopesController
  */
-@WebServlet("/ver-tabla-alumnos")
-public class TablaAlumnoController extends HttpServlet {
-	
+@WebServlet("/ejemploScopes")
+public class EjemploScopesController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-  
-
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -35,18 +31,23 @@ public class TablaAlumnoController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		// conseguir los alumnos de la bbdd
-		
-		UsuarioDAOImpl dao = UsuarioDAOImpl.getInstance();		
-		ArrayList<Usuario> alumnos = dao.getAll();
-		
-		// enviar la informacion a la vista		
-		request.setAttribute( "alumnos" , alumnos );
-		
-		// ir a la nueva vista o jsp
-		request.getRequestDispatcher("tabla-alumnos.jsp").forward(request, response);
+		ServletContext sc = request.getServletContext();
+		sc.setAttribute("ejemplo_usuarios_conectados", 5023);
 		
 		
+		HttpSession session = request.getSession();
+		session.setAttribute("ejemplo_tiempo_conectado", 23 );
+
+		request.setAttribute("ejemplo_nombre", "Ander en Reuqest");
+		
+		
+		sc.setAttribute("ejemplo_igual", "Aplicacion");
+		session.setAttribute("ejemplo_igual", "session");
+		request.setAttribute("ejemplo_igual", "request");
+		
+		
+		
+		request.getRequestDispatcher("views/ejemplos/scopes.jsp").forward(request, response);
 		
 	}
 

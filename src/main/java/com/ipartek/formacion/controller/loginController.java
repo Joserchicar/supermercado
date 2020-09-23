@@ -47,13 +47,9 @@ public class loginController extends HttpServlet {
 
 		String nombre = request.getParameter("nombre");
 		String pass = request.getParameter("pass");
-		String idioma = request.getParameter("idioma");
+		String rol = request.getParameter("rol");
 
-		// crear cookie de idioma
-		Cookie cIdioma = new Cookie("cIdioma", idioma);
-		cIdioma.setMaxAge(60 * 1 * 60 * 24 * 365 * 5); // 5 años
-		// guardar cookie
-		response.addCookie(cIdioma);
+		
 
 		HttpSession session = request.getSession();
 
@@ -66,7 +62,7 @@ public class loginController extends HttpServlet {
 			session.setAttribute("usuario_login", usuario);
 
 			request.setAttribute("alerta", new Alerta("success", "Ongi Etorri, ya estas Logeado"));
-			request.getRequestDispatcher("index.jsp").forward(request, response);
+			request.getRequestDispatcher(".jsp").forward(request, response);
 
 		} else {
 

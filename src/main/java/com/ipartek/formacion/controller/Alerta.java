@@ -2,13 +2,14 @@ package com.ipartek.formacion.controller;
 
 public class Alerta {
 
+	
 	private String tipo;
 	private String texto;
 	
 	public Alerta() {
 		super();
-		this.texto="";
-		this.tipo="";
+		this.texto = "";
+		this.tipo = "";
 	}
 
 	public Alerta(String tipo, String texto) {
@@ -35,14 +36,8 @@ public class Alerta {
 
 	@Override
 	public String toString() {
-		return "alerta [tipo=" + tipo + ", texto=" + texto + "]";
+		return "Alerta [tipo=" + tipo + ", texto=" + texto + "]";
 	}
 	
 	
-
-	
-	
-	
-	
 }
-
